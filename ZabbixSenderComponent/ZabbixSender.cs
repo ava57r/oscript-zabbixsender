@@ -33,10 +33,10 @@ namespace OneScript.Zabbix
 		public SenderResponse Send(Message message, int timeout = 500)
 		{
 			var json = JsonConvert.SerializeObject(message);
-			
+			var data = Encoding.UTF8.GetBytes(json);
+
 			byte[] header = Encoding.ASCII.GetBytes(ZBX_HDR);
-			byte[] length = BitConverter.GetBytes((long)json.Length);
-			byte[] data = Encoding.ASCII.GetBytes(json); 
+			byte[] length = BitConverter.GetBytes((long)data.Length);
 
 			byte[] all = new byte[header.Length + length.Length + data.Length];
 			System.Buffer.BlockCopy(header, 0, all, 0, header.Length);
